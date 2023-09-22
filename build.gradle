@@ -40,6 +40,7 @@ dependencies {
 //	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 	implementation group: 'org.postgresql', name: 'postgresql', version: '42.6.0'
 	runtimeOnly 'org.postgresql:postgresql'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.5'
 }
 
 tasks.named('test') {
