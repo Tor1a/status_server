@@ -25,6 +25,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-batch'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -34,6 +35,11 @@ dependencies {
 	implementation 'software.amazon.awssdk:cloudwatch'
 	implementation 'software.amazon.awssdk:cloudwatchevents'
 	implementation 'software.amazon.awssdk:cloudwatchlogs'
+//	implementation 'org.springframework.boot:spring-boot-starter-security'
+//	testImplementation 'org.springframework.security:spring-security-test'
+//	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	implementation group: 'org.postgresql', name: 'postgresql', version: '42.6.0'
+	runtimeOnly 'org.postgresql:postgresql'
 }
 
 tasks.named('test') {

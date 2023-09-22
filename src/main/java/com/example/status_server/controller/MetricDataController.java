@@ -8,18 +8,17 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.cloudwatch.CloudWatchClient;
 import software.amazon.awssdk.services.cloudwatch.model.*;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class MetricDataController {
-
-    @GetMapping("/")
+    @GetMapping("/getMetric")
     public String getMetricData(){
         Region region = Region.AP_NORTHEAST_2;
         CloudWatchClient cw = CloudWatchClient.builder()
@@ -33,8 +32,6 @@ public class MetricDataController {
             List<String> instanceIds = List.of("i-0d66b83b3c1617562");
 
 
-
-
             List<MetricDataQuery> dqList = new ArrayList<>();
             List<MetricDataQuery> dqList2 = new ArrayList<>();
             List<MetricDataQuery> dqList3 = new ArrayList<>();
@@ -43,8 +40,8 @@ public class MetricDataController {
             for (int i = 0; i < instanceIds.size(); i++) {
                 String instanceId = instanceIds.get(i);
                 String memId = "mem" + i;
-                String cpuId = "mem" + i;
-                String diskId = "mem" + i;
+                String cpuId = "cpu" + i;
+                String diskId = "disk" + i;
 
                 Metric mem = Metric.builder()
                         .metricName("mem_used_percent")
@@ -139,90 +136,15 @@ public class MetricDataController {
                 GetMetricDataResponse response = cw.getMetricData(getMetReq);
                 List<MetricDataResult> data = response.metricDataResults();
 
-
                 GetMetricDataResponse response2 = cw.getMetricData(getMetReq2);
                 List<MetricDataResult> data2 = response2.metricDataResults();
 
                 GetMetricDataResponse response3 = cw.getMetricData(getMetReq3);
                 List<MetricDataResult> data3 = response3.metricDataResults();
 
-                String mem_status = null;
-                double mem_usage = 0.0;
-                for (MetricDataResult item : data) {
-                    List<Double> values = item.values();
-                    if (values.isEmpty()) {
-                        continue;
-                    }
-                    List<Double> modifiedValues = new ArrayList<>();
-                    for (Double value : values) {
-                        modifiedValues.add(value);
-                    }
-
-
-                    mem_usage = modifiedValues.get(0);
-                    if (mem_usage <= 50.0) {
-                        mem_status = "OK";
-                    } else if (mem_usage > 70.0) {
-                        mem_status = "CRITICAL";
-                    }else {
-                        mem_status = "WARNING";
-                    }
-                    System.out.println("mem_status: "  + mem_status);
-
-                }
-
-
-                String disk_status = null;
-                double disk_usage = 0.0;
-                for (MetricDataResult item : data2) {
-                    List<Double> values = item.values();
-
-                    if (values.isEmpty()) {
-                        continue;
-                    }
-                    List<Double> modifiedValues = new ArrayList<>();
-                    for (Double value : values) {
-                        modifiedValues.add(value);
-                    }
-
-
-                    disk_usage = modifiedValues.get(0);
-                    if (disk_usage <= 70.0) {
-                        disk_status = "OK";
-                    } else if (disk_usage > 85.0) {
-                        disk_status = "CRITICAL";
-                    }else {
-                        disk_status = "WARNING";
-                    }
-                    System.out.println("disk_status: "  + disk_status);
-
-                }
-
-
-                String cpu_status = null;
-                double cpu_usage = 0.0;
-                for (MetricDataResult item : data3) {
-                    List<Double> values = item.values();
-
-                    if (values.isEmpty()) {
-                        continue;
-                    }
-                    List<Double> modifiedValues = new ArrayList<>();
-                    for (Double value : values) {
-                        modifiedValues.add(100 - value);
-                    }
-                    cpu_usage = modifiedValues.get(0);
-                    if (cpu_usage < 50.0) {
-                        cpu_status = "OK";
-                    } else if (cpu_usage >= 80.0) {
-                        cpu_status = "CRITICAL";
-                    }else {
-                        cpu_status = "WARNING";
-                    }
-                    System.out.println("cpu_status: "  + cpu_status);
-
-                }
-
+                System.out.println(data.get(0));
+                System.out.println(data2);
+                System.out.println(data3);
 
             }
         } catch (CloudWatchException e) {
@@ -233,5 +155,6 @@ public class MetricDataController {
 
         return "status.html";
     }
+
 
 }
