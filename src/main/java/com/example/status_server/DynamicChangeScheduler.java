@@ -15,7 +15,8 @@ import java.time.LocalDateTime;
 public class DynamicChangeScheduler {
 
     private ThreadPoolTaskScheduler scheduler;
-    private String cron = "0 0/5 * * * ?";
+//    private String cron = "0 0/5 * * * ?";
+    private String cron = "0/1 * * * * ?";
 
     @Autowired
     private MetricDataController metricDataController;
