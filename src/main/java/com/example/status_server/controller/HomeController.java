@@ -11,4 +11,10 @@ public class HomeController {
         ModelAndView modelAndView = new ModelAndView("/status");
         return modelAndView;
     }
+
+    @RequestMapping("/index")
+    public ModelAndView index(){
+        ModelAndView modelAndView = new ModelAndView("/index");
+        return modelAndView;
+    }
 }
